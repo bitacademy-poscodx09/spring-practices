@@ -18,6 +18,6 @@
 		</table>
 	</form>
 	<br>
-	<a href="/guestbook03">메인으로 돌아가기</a>
+	<a href="${pageContext.request.contextPath }">메인으로 돌아가기</a>
 </body>
 </html>

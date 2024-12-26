@@ -2,13 +2,14 @@
 <%@ taglib uri="jakarta.tags.fmt" prefix="fmt"%>
 <%@ taglib uri="jakarta.tags.functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%pageContext.setAttribute("line", "\n");%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>방명록</title>
 </head>
 <body>
-	<form action="/guestbook03/add" method="post">
+	<form action="${pageContext.request.contextPath }/add" method="post">
 		<table border="1">
 			<tr>
 				<td>이름</td>
@@ -28,28 +29,22 @@
 			</tr>
 		</table>
 	</form>
-	
-	<%
-		int count = list.size();
-		int index = 0;
-		for(GuestbookVo vo : list) {
-	%>
+	<c:set var="count" value="${fn:length(list) }" />
+	<c:forEach items="${list }" var="vo" varStatus="status">	
 		<br>
 		<table width=510 border=1>
 			<tr>
-				<td>[<%=count-index++ %>]</td>
-				<td><%=vo.getName() %></td>
-				<td><%=vo.getRegDate() %></td>
-				<td><a href="/guestbook03/delete/${vo.id }">삭제</a></td>
+				<td>[${count-status.index }]</td>
+				<td>${vo.name }</td>
+				<td>${vo.regDate }</td>
+				<td><a href="${pageContext.request.contextPath }/delete/${vo.id }">삭제</a></td>
 			</tr>
 			<tr>
 				<td colspan=4>
-					<%=vo.getContents().replaceAll("\n", "<br>") %>
+					${fn:replace(vo.contents, line, "<br>") }
 				</td>
 			</tr>
 		</table>
-	<%
-		}
-	%>
+	</c:forEach>
 </body>
 </html>
