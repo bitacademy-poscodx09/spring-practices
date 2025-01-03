@@ -14,7 +14,10 @@
 
 	<!-- mvc url-resource mapping -->
 	<mvc:resources mapping="/images/**" location="file:/fileupload-files/" />
-		
+
+	<!-- Multipart Resolver -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />
+			
 	<!-- View Resolver -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 	   <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
