@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
 public class JdbcContext {
 	private final DataSource dataSource;
@@ -30,6 +31,7 @@ public class JdbcContext {
 			@Override
 			public PreparedStatement makeStatement(Connection connection) throws SQLException {
 				PreparedStatement pstmt = connection.prepareStatement(sql);
+				
 				for(int i = 0; i < parameters.length; i++) {
 					pstmt.setObject(i+1, parameters[i]);
 				}
@@ -93,7 +95,7 @@ public class JdbcContext {
 		int count = 0;
 		
 		try (
-			Connection conn = dataSource.getConnection();
+			Connection conn = DataSourceUtils.getConnection(dataSource);
 			PreparedStatement pstmt = statementStrategy.makeStatement(conn);
 		) {
 			count = pstmt.executeUpdate();
